@@ -1,0 +1,26 @@
+kubectl top pods -n kube-system
+
+kubectl get ServiceAccount -n kube-system | grep metrics
+
+kubectl get ClusterRole  | grep system:aggregated-metrics-reader
+
+kubectl get ClusterRole  | grep system:metrics-server
+
+kubectl get rolebinding -n kube-system | grep metrics-server-auth-reader
+
+kubectl get ClusterRoleBinding | grep metrics-server:system:auth-delegator
+
+kubectl get ClusterRoleBinding | grep system:metrics-server
+
+kubectl get sa -n kube-system | grep metrics-server
+
+kubectl get APIService  | grep v1beta1.metrics.k8s.io
+
+kubectl apply -f Sample-App-Deployment.yaml
+
+
+We will start a container and send an infinite loop of queries to the ‘php-apache’ service, listening on port 8080. Open a new terminal and execute the below command:
+kubectl run -i --tty load-generator --rm --image=busybox --restart=Never -- /bin/sh -c "while sleep 0.01; do wget -q -O- http://hpa-demo-deployment; done"
+
+
+kubectl describe deploy hpa-demo-deployment
