@@ -13,8 +13,8 @@ spec:
   strategy:
    type: RollingUpdate
    rollingUpdate:
-      maxSurge: 2
-      maxUnavailable: 1 
+      maxSurge: 2 # at a time maximum of 2 PODS can be updated at a time
+      maxUnavailable: 1 # at a time only 1 POD can be unavailable
   
   # 3. Which pods are managed by this deployment?
   selector:
