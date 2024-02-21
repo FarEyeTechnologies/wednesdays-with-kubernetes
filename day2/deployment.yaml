@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k8s-deployment
+spec:
+  # A deployment's specification really only 
+  # has a few useful options
+  
+  # 1. How many copies of each pod do we want?
+  replicas: 3
+
+  # 2. How do want to update the pods?
+  strategy:
+   type: RollingUpdate
+   rollingUpdate:
+      maxSurge: 2 # at a time maximum of 2 PODS can be updated at a time
+      maxUnavailable: 1 # at a time only 1 POD can be unavailable
+  
+  # 3. Which pods are managed by this deployment?
+  selector:
+    # This must match the labels we set on the pod!
+    matchLabels:
+      app: k8s
+  
+  # This template field is a regular pod configuration 
+  # nested inside the deployment spec
+  template:
+    metadata:
+      # Set labels on the pod.
+      # This is used in the deployment selector.
+      labels:
+        app: k8s
+    spec:
+      containers: # An array of containers that should be run in this Pod.
+      - name: k8s-app #The name of the container.
+        image: nginx # The container image to run
+        ports: #Ports to expose on the container.
+        - containerPort: 8080
+        readinessProbe:
+          httpGet: # Specifies that the health check should be performed via an HTTP GET request.
+            path: / # The path of the endpoint that the probe should hit
+            port: 8080 #The port number on which the HTTP server is running inside the container.
+          initialDelaySeconds: 30 #  Specifies the number of seconds after the container has started before the readiness probe is initiated.
+          periodSeconds: 5 # Specifies how often (in seconds) Kubernetes should perform the readiness probe after the initial delay.
+          timeoutSeconds: 2 #  Specifies the maximum amount of time (in seconds) that the probe will wait for a response before considering the probe to have failed
+          failureThreshold: 10 #Specifies the number of times Kubernetes should retry the probe before marking the container as unhealthy. 
+        livenessProbe:
+          httpGet: # Specifies that the health check should be performed via an HTTP GET request
+            path: / # The path of the endpoint that the probe should hit  
+            port: 8080 #The port number on which the HTTP server is running inside the container.
+          initialDelaySeconds: 30 #Specifies the number of seconds after the container has started before the liveness probe is initiated.
+          periodSeconds: 5 # Specifies how often (in seconds) Kubernetes should perform the liveness probe after the initial delay.
+          timeoutSeconds: 2 # Specifies the maximum amount of time (in seconds) that the probe will wait for a response before considering the probe to have failed
+          failureThreshold: 10 # Specifies the number of times Kubernetes should retry the probe before marking the container as unhealthy
+      # imagePullSecrets:
+      # - name: dc-registry-secret  #Sepicified secret name to autheticate the registry.
+      # imagePullPolicy: IfNotPresent #Specified image policy
