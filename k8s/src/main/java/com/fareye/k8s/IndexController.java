@@ -1,14 +1,24 @@
-package com.fareye.k8s;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class IndexController {
-    
-    @GetMapping
-    public String index(){
-        return "Welcome to Wednesday's with Kubernetes";
+
+    private final DataSourceProperties dataSourceProperties;
+
+    @Autowired
+    public IndexController(DataSourceProperties dataSourceProperties) {
+        this.dataSourceProperties = dataSourceProperties;
     }
 
+    @GetMapping("/")
+    public String index() {
+        String username = dataSourceProperties.getUsername();
+        String company = dataSourceProperties.getCompany();
+        String employid = dataSourceProperties.getEmployid();
+        String password = dataSourceProperties.getPassword();
+
+        return "Welcome to Wednesday's with Kubernetes by " + username + " from " + company + ". Employee ID: " + employid;
+    }
 }
