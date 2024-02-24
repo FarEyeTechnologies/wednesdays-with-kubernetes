@@ -12,8 +12,9 @@ public class IndexController {
         this.dataSourceProperties = dataSourceProperties;
     }
 
-    @GetMapping("/")
+    @GetMapping("/api")
     public String index() {
+        System.out.println("insideapplication");
         String username = dataSourceProperties.getUsername();
         String company = dataSourceProperties.getCompany();
         String employid = dataSourceProperties.getEmployid();
