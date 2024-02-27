@@ -1,0 +1,14 @@
+apiVersion: v1 #The Kubernetes API version used to create this object.
+kind: Pod #The type of object being created, in this case, a Pod.
+metadata: #Data that helps uniquely identify the object, including its name and labels.
+  name: hellonode #The name of the Pod.
+  labels: # Key-value pairs used to organize and select groups of objects
+    app: hellonode
+spec: # Describes the desired state of the Pod.
+  containers: # An array of containers that should be run in this Pod.
+  - name: hellonode #The name of the container.
+    image: piyushthemittal/hellonode:v1 # The container image to run
+    ports: #Ports to expose on the container.
+    - containerPort: 3000
+  imagePullSecrets:
+  - name: my-registry-secret

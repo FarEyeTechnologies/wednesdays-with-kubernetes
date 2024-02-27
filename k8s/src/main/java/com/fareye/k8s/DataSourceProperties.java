@@ -1,3 +1,4 @@
+package com.fareye.k8s;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
@@ -8,6 +9,7 @@ public class DataSourceProperties {
     private String password;
     private String company;
     private String employid;
+    private String apiUrl;
 
     // Getters and setters
     public String getUsername() {
@@ -40,5 +42,13 @@ public class DataSourceProperties {
 
     public void setEmployid(String employid) {
         this.employid = employid;
+    }
+
+    public String getApiUrl() {
+        return apiUrl;
+    }
+
+    public void setApiUrl(String apiUrl) {
+        this.apiUrl = apiUrl;
     }
 }

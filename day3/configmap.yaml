@@ -1,0 +1,12 @@
+# This ConfigMap defines configuration data for the application.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  # Name of the ConfigMap resource.
+  name: my-config
+data:
+  # Varaibles for the application.
+  USERNAME: Piyush
+  COMPANY: Fareye
+  EMP_ID: FE2247
+  HOST: http://hellonode-service:3000/hello
