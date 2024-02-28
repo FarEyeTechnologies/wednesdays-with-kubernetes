@@ -8,8 +8,18 @@ Apply the files located in the "otherservice" folder using the following command
 
 ```bash
 kubectl apply -f <filename>
+
+```bash
 kubectl apply -f configmap.yaml
+
+```bash
 kubectl apply -f dockerconfig.yaml
+
+```bash
 kubectl apply -f secret.yaml
+
+```bash
 kubectl apply -f service.yaml
+
+```bash
 kubectl apply -f statefulset.yaml

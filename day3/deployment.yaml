@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: k8s-app
-        image: piyushthemittal/k8s:v28
+        image: piyushthemittal/k8s:v27
         ports:
         - containerPort: 8080 
         envFrom:
