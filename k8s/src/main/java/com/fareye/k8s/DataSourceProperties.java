@@ -3,7 +3,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 @Component
-@ConfigurationProperties(prefix = "spring.datasource")
+@ConfigurationProperties(prefix = "app")
 public class DataSourceProperties {
     private String username;
     private String password;
