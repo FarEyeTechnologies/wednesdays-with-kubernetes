@@ -28,9 +28,14 @@ Step 5: Apply the service
 Apply the service configuration using the following command:
 kubectl apply -f service.yaml
 
-Step 6: Apply the statefulset
+Step 6: Apply the statefulset having PVC
 Apply the statefulset configuration using the following command:
 kubectl apply -f statefulset.yaml
+
+Step 7: Apply the daemonset.yaml
+Apply the statefulset configuration using the following command:
+kubectl apply -f daemonset.yaml
+
+
 Once all steps are completed successfully, the service should be deployed and accessible within your Kubernetes 
 
-This README provides a step-by-step guide for deploying the service using Kubernetes. Each step corresponds to applying a specific configuration file necessary for the deployment.
