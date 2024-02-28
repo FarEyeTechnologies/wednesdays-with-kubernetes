@@ -33,25 +33,32 @@ spec:
     spec:
       containers: # An array of containers that should be run in this Pod.
       - name: k8s-app #The name of the container.
-        image: nginx # The container image to run
+        image: piyushthemittal/k8s:v2 # The container image to run
         ports: #Ports to expose on the container.
         - containerPort: 8080
-        readinessProbe:
-          httpGet: # Specifies that the health check should be performed via an HTTP GET request.
-            path: / # The path of the endpoint that the probe should hit
-            port: 8080 #The port number on which the HTTP server is running inside the container.
-          initialDelaySeconds: 30 #  Specifies the number of seconds after the container has started before the readiness probe is initiated.
-          periodSeconds: 5 # Specifies how often (in seconds) Kubernetes should perform the readiness probe after the initial delay.
-          timeoutSeconds: 2 #  Specifies the maximum amount of time (in seconds) that the probe will wait for a response before considering the probe to have failed
-          failureThreshold: 10 #Specifies the number of times Kubernetes should retry the probe before marking the container as unhealthy. 
-        livenessProbe:
-          httpGet: # Specifies that the health check should be performed via an HTTP GET request
-            path: / # The path of the endpoint that the probe should hit  
-            port: 8080 #The port number on which the HTTP server is running inside the container.
-          initialDelaySeconds: 30 #Specifies the number of seconds after the container has started before the liveness probe is initiated.
-          periodSeconds: 5 # Specifies how often (in seconds) Kubernetes should perform the liveness probe after the initial delay.
-          timeoutSeconds: 2 # Specifies the maximum amount of time (in seconds) that the probe will wait for a response before considering the probe to have failed
-          failureThreshold: 10 # Specifies the number of times Kubernetes should retry the probe before marking the container as unhealthy
-      # imagePullSecrets:
-      # - name: dc-registry-secret  #Sepicified secret name to autheticate the registry.
+        volumeMounts:
+        - name: config-volume
+          mountPath: /etc/config        
+        # readinessProbe:
+        #   httpGet: # Specifies that the health check should be performed via an HTTP GET request.
+        #     path: / # The path of the endpoint that the probe should hit
+        #     port: 8080 #The port number on which the HTTP server is running inside the container.
+        #   initialDelaySeconds: 30 #  Specifies the number of seconds after the container has started before the readiness probe is initiated.
+        #   periodSeconds: 5 # Specifies how often (in seconds) Kubernetes should perform the readiness probe after the initial delay.
+        #   timeoutSeconds: 2 #  Specifies the maximum amount of time (in seconds) that the probe will wait for a response before considering the probe to have failed
+        #   failureThreshold: 10 #Specifies the number of times Kubernetes should retry the probe before marking the container as unhealthy. 
+        # livenessProbe:
+        #   httpGet: # Specifies that the health check should be performed via an HTTP GET request
+        #     path: / # The path of the endpoint that the probe should hit  
+        #     port: 8080 #The port number on which the HTTP server is running inside the container.
+        #   initialDelaySeconds: 30 #Specifies the number of seconds after the container has started before the liveness probe is initiated.
+        #   periodSeconds: 5 # Specifies how often (in seconds) Kubernetes should perform the liveness probe after the initial delay.
+        #   timeoutSeconds: 2 # Specifies the maximum amount of time (in seconds) that the probe will wait for a response before considering the probe to have failed
+        #   failureThreshold: 10 # Specifies the number of times Kubernetes should retry the probe before marking the container as unhealthy
+        imagePullSecrets:
+        - name: my-registry-secret
       # imagePullPolicy: IfNotPresent #Specified image policy
+        volumes:
+        - name: config-volume
+          configMap:
+            name: k8s-config
