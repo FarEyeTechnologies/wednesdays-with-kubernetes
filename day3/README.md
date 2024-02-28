@@ -14,6 +14,7 @@ Replace <filename> with the appropriate filename in the folder.
 
 Step 2: Apply the configmap
 Apply the configmap configuration using the following command:
+```bash
 kubectl apply -f configmap.yaml
 
 Step 3: Apply the dockerconfig
