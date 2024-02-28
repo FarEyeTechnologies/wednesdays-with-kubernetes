@@ -8,7 +8,7 @@ Before proceeding, ensure you have the following prerequisites:
 
 ## Steps: Apply the initial files
 
-Step 1: Apply the files located in the "otherservice" folder using the following command:
+Step 1: Apply the files located in the "ontherservice" folder using the following command:
 kubectl apply -f <filename>
 Replace <filename> with the appropriate filename in the folder.
 
@@ -16,6 +16,7 @@ Step 2: Apply the configmap
 Apply the configmap configuration using the following command:
 ```bash
 kubectl apply -f configmap.yaml
+```
 
 Step 3: Apply the dockerconfig
 Apply the dockerconfig configuration using the following command:
