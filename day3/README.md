@@ -9,7 +9,10 @@ Before proceeding, ensure you have the following prerequisites:
 ## Steps: Apply the initial files
 
 Step 1: Apply the files located in the "ontherservice" folder using the following command:
-kubectl apply -f <filename>
+```bash
+kubectl apply -f k8s-pod.yaml
+kubectl apply -f k8s-service.yaml
+```
 Replace <filename> with the appropriate filename in the folder.
 
 Step 2: Apply the configmap
