@@ -5,7 +5,7 @@ metadata:
   # Name of the ConfigMap resource.
   name: my-config
 data:
-  # Varaibles for the application.
+  # Variables for the application.
   USERNAME: Piyush
   COMPANY: Fareye
   EMP_ID: FE2247
