@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-test
+  labels:
+    env: test-env
+spec:
+  containers:
+  - name: nginx
+    image: nginx:latest
+    imagePullPolicy: IfNotPresent
+    resources:
+      requests:
+        memory: "128Mi"
+        cpu: "250m"
+      limits:
+        memory: "512Mi"
+        cpu: "500m"
+  # affinity:
+  #   podAffinity:
+  #     requiredDuringSchedulingIgnoredDuringExecution:
+  #     - labelSelector:
+  #         matchExpressions:
+  #         - key: app-name
+  #           operator: In
+  #           values:
+  #           - web-app
+  #       topologyKey: topology.kubernetes.io/zone
+    podAntiAffinity:  # Stanza to configure pod affinity.
+      preferredDuringSchedulingIgnoredDuringExecution:  # Defines a preferred rule.
+      - weight: 100   # Specifies a weight for a preferred rule. The node with the highest weight is preferred.
+        podAffinityTerm:
+          labelSelector:
+            matchExpressions:
+            - key: type   # Description of the pod label that determines when the anti-affinity rule applies. Specify a key and value for the label.
+              operator: In    # The operator represents the relationship between the label on the existing pod and the set of values in the matchExpression parameters in the specification for the new pod. Can be In, NotIn, Exists, or DoesNotExist.
+              values:
+              - frontend
+          topologyKey: topology.kubernetes.io/zone
+          # topologyKey: kubernetes.io/hostname
