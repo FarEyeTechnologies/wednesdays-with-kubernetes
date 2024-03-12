@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k8s-topology-deployment
+spec:
+  selector:
+    matchLabels:
+      app: k8s-demo
+  replicas: 5
+  template:
+    metadata:
+      labels:
+        app: k8s-demo
+    spec:
+      # tolerations:
+      #   - effect: "NoSchedule"
+      #     key: "dedicated"
+      #     operator: Equal
+      #     value: "colima"
+      # nodeSelector:
+      #   dedicated: "colima"
+      topologySpreadConstraints:
+        # - maxSkew: 1
+        #   topologyKey: topology.kubernetes.io/zone
+        #   whenUnsatisfiable: DoNotSchedule
+        #   labelSelector:
+        #     matchLabels:
+        #       app: k8s-demo
+        - labelSelector:
+            matchLabels:
+              app: k8s-demo
+          maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: ScheduleAnyway               
+      containers:
+        - name: k8s-demo-container  
+          image: vivek2508/k8s-demo:latest
+          resources:
+            requests:
+              memory: "300Mi"
+              cpu: "100m"
+            limits:
+              memory: "400Mi"
+              cpu: "300m"
