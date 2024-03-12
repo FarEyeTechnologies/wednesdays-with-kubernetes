@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: k8s-demo-pod
+  name: k8s-demo-pod-backend
   labels:
-    env: k8s-demo
+    env: backend
 spec:
   containers:
   - name: k8s-demo-container
@@ -16,8 +16,3 @@ spec:
       limits:
         memory: "512Mi"
         cpu: "500m"
-  tolerations:
-  - key: "testpod"
-    operator: "Equal"
-    value: "true"
-    effect: "NoSchedule"

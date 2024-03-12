@@ -40,21 +40,25 @@ kubectl run -i --tty load-generator --rm --image=busybox --restart=Never -- /bin
 ## How to define Kubernetes node affinity?
 Node affinity depends on the labels specified on the node. To begin, a label to the nodes using the kubectl label nodes command shown below:
 ```bash
-kubectl label nodes minikube-m02 name=app-worker-node
+kubectl label nodes colima name=node-affinity-test 
+node/colima labeled
 ```
 
 ## Here, we have labeled the minikube-m02 node containing the key name with the value app-worker-node.
 ## You can see the labels configured on the specific node using the kubectl describe node command:
 ```bash
-kubectl describe node minikube-m02
-Name:               minikube-m02
-Roles:              <none>
+kubectl describe node colima | grep Labels: -A10
 Labels:             beta.kubernetes.io/arch=amd64
+                    beta.kubernetes.io/instance-type=k3s
                     beta.kubernetes.io/os=linux
                     kubernetes.io/arch=amd64
-                    kubernetes.io/hostname=minikube-m02
+                    kubernetes.io/hostname=colima
                     kubernetes.io/os=linux
-                    name=app-worker-node
+                    name=node-affinity-test
+                    node-role.kubernetes.io/control-plane=true
+                    node-role.kubernetes.io/master=true
+                    node.kubernetes.io/instance-type=k3s
+Annotations:        alpha.kubernetes.io/provided-node-ip: 192.168.5.1
 ```
 
 ## Next, create a manifest that uses node affinity to match the pods with this specific node with the label. The manifest below defines a rule that enforces the given condition. The pod will only get scheduled on a node containing a label with the key name and the value app-worker-node.
@@ -62,18 +66,10 @@ Labels:             beta.kubernetes.io/arch=amd64
 ## The kubectl taint command with the required taint allows us to add taints to nodes. The general syntax for the command is:
 ```bash
 kubectl taint nodes <node name> <taint key>=<taint value>:<taint effect>
-kubectl taint nodes minikube-m02 gpu=true:NoSchedule
-kubectl describe nodes minikube-m02
-Name:               minikube-m02
-Roles:              <none>
-Labels:             beta.kubernetes.io/arch=amd64
-                    beta.kubernetes.io/os=linux
-                    kubernetes.io/arch=amd64
-                    kubernetes.io/hostname=minikube-m02
-                    kubernetes.io/os=linux
-Annotations:        kubeadm.alpha.kubernetes.io/cri-socket: /var/run/dockershim.sock
-                    node.alpha.kubernetes.io/ttl: 0
-                    volumes.kubernetes.io/controller-managed-attach-detach: true
+kubectl taint nodes colima testpod=true:NoSchedule
+
+kubectl describe node colima | grep Taints:
+Taints:             testpod=true:NoSchedule
 ```
 
 ## We can remove the taint by specifying the taint key and the taint effect with a minus(-) to signify the removal. The basic syntax of the command is:
@@ -81,10 +77,8 @@ Annotations:        kubeadm.alpha.kubernetes.io/cri-socket: /var/run/dockershim.
 kubectl taint nodes <node name> <taint key>:<taint effect>-
 Now, let’s remove the previously added taint to the minikube-m02 node.
 
-kubectl taint nodes minikube-m02 gpu:NoSchedule-
-The expected result from this command is:
-
-node/minikube-m02 untainted                    
+kubectl taint nodes colima testpod=true:NoSchedule-
+node/colima untainted                
 ```
 
 ## CRD
