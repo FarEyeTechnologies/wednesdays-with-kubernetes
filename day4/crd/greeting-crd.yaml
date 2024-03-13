@@ -1,0 +1,8 @@
+apiVersion: fareye.co/v1alpha1
+kind: Greeting
+metadata:
+  name: vps-greeting
+spec:
+  emailToGreet: vivek.singh@fareye.com
+  messageToGreet: Hello
+  replicas: 1
