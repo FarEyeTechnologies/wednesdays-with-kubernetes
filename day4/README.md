@@ -44,7 +44,7 @@ kubectl label nodes colima name=node-affinity-test
 node/colima labeled
 ```
 
-## Here, we have labeled the minikube-m02 node containing the key name with the value app-worker-node.
+
 ## You can see the labels configured on the specific node using the kubectl describe node command:
 ```bash
 kubectl describe node colima | grep Labels: -A10
@@ -61,8 +61,6 @@ Labels:             beta.kubernetes.io/arch=amd64
 Annotations:        alpha.kubernetes.io/provided-node-ip: 192.168.5.1
 ```
 
-## Next, create a manifest that uses node affinity to match the pods with this specific node with the label. The manifest below defines a rule that enforces the given condition. The pod will only get scheduled on a node containing a label with the key name and the value app-worker-node.
-
 ## The kubectl taint command with the required taint allows us to add taints to nodes. The general syntax for the command is:
 ```bash
 kubectl taint nodes <node name> <taint key>=<taint value>:<taint effect>
@@ -75,10 +73,17 @@ Taints:             testpod=true:NoSchedule
 ## We can remove the taint by specifying the taint key and the taint effect with a minus(-) to signify the removal. The basic syntax of the command is:
 ```bash
 kubectl taint nodes <node name> <taint key>:<taint effect>-
-Now, let’s remove the previously added taint to the minikube-m02 node.
+Now, let’s remove the previously added taint to the colima node.
 
 kubectl taint nodes colima testpod=true:NoSchedule-
 node/colima untainted                
+```
+
+
+## Network topology
+```bash
+kubectl label nodes colima zone=zonea 
+kubectl label nodes colima zone-
 ```
 
 ## CRD
